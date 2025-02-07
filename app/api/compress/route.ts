@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { compressImage } from "@/lib/compressors";
 import { ACCEPTED_MIME_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
-import { createFileSchema } from "@/lib/utils";
 import { getRequestIP, hashIPAddress } from "@/lib/server";
+import { createFileSchema } from "@/lib/utils";
 
 // Disable automatic body parsing
 export const config = {
