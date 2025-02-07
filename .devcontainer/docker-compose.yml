@@ -1,0 +1,19 @@
+services:
+  app:
+    container_name: app
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    entrypoint:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"

@@ -1,0 +1,24 @@
+{
+  "name": "Next.js Dev Container",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "MylesMurphy.prettify-ts",
+        "YoavBls.pretty-ts-errors",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  },
+  "forwardPorts": [3000],
+  "postCreateCommand": "bash .devcontainer/prerun.sh && npm run dev",
+  "remoteUser": "node",
+  "containerUser": "node"
+}
