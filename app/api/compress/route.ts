@@ -1,11 +1,8 @@
-import { env } from "@/env";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { compressImage } from "@/lib/compressors";
 import { ACCEPTED_MIME_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
-import { getRequestIP, hashIPAddress } from "@/lib/server";
+import { getRequestIP, hashIPAddress, rateLimit } from "@/lib/server";
 import { createFileSchema } from "@/lib/utils";
 
 // Disable automatic body parsing
@@ -14,18 +11,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-const redis = new Redis({
-  url: env.KV_REST_API_URL,
-  token: env.KV_REST_API_TOKEN,
-});
-
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(10, "10 s"),
-  analytics: true,
-  prefix: "@ratelimit/pic-squeeze",
-});
 
 // Function to validate form data
 async function validateFormData(formData: FormData) {
@@ -46,8 +31,9 @@ export async function POST(request: NextRequest) {
   try {
     const ipAddress = getRequestIP(request);
     const identifier = hashIPAddress(ipAddress);
-    const { success } = await ratelimit.limit(identifier);
-    if (!success) {
+    const allowed = await rateLimit(identifier);
+
+    if (!allowed) {
       console.log("[RATE_LIMIT_EXCEEDED] Rate limit exceeded for", identifier);
       return NextResponse.json(
         { error: "Rate limit exceeded. Try again later." },

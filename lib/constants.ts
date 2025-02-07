@@ -5,3 +5,5 @@ export const ACCEPTED_MIME_TYPES = [
   "image/png",
   "image/webp",
 ];
+export const RATE_LIMIT_WINDOW = 10; // seconds
+export const RATE_LIMIT_MAX_REQUESTS = 10;
