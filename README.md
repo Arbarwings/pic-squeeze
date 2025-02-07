@@ -1,4 +1,9 @@
-# Image Compression Mini-App
+<h1 align="center">
+  <a href="https://github.com/Arbarwings/pic-squeeze">
+    <img src="https://raw.githubusercontent.com/Arbarwings/pic-squeeze/main/.github/preview.png" alt="PicSqueeze">
+  </a>
+  <br>PicSqueeze<br>
+</h1>
 
 ## Overview
 
