@@ -27,5 +27,7 @@ jobs:
         run: npm run check-types
       - name: Test
         run: npm run test
+      - name: Create .env file
+        run: cp .env.example .env
       - name: Build
         run: npm run build

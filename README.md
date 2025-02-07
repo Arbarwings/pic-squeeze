@@ -15,6 +15,7 @@ compressed image can be downloaded.
 - Error handling.
 - Rate limiting.
 - GDRP compliance (no cookies, no tracking, IP anonymization).
+- Automated tests.
 
 ## Technologies used
 
@@ -31,6 +32,7 @@ compressed image can be downloaded.
 - Docker
 - Docker Compose
 - Devcontainer
+- GitHub Actions
 
 ## Setup and installation
 
