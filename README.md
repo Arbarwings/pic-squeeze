@@ -24,6 +24,7 @@ compressed image can be downloaded.
 - Shadcn
 - Sharp
 - Zod
+- Vitest
 - Prettier
 - ESLint
 - Redis
