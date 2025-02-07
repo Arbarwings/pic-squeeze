@@ -6,7 +6,8 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
       },
       "extensions": [
         "dbaeumer.vscode-eslint",
