@@ -6,6 +6,7 @@ import { z } from "zod";
 import { compressImage } from "@/lib/compressors";
 import { ACCEPTED_MIME_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
 import { createFileSchema } from "@/lib/utils";
+import { getRequestIP, hashIPAddress } from "@/lib/server";
 
 // Disable automatic body parsing
 export const config = {
@@ -43,9 +44,11 @@ async function validateFormData(formData: FormData) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { success } = await ratelimit.limit("api");
+    const ipAddress = getRequestIP(request);
+    const identifier = hashIPAddress(ipAddress);
+    const { success } = await ratelimit.limit(identifier);
     if (!success) {
-      console.log("[RATE_LIMIT_EXCEEDED] api");
+      console.log("[RATE_LIMIT_EXCEEDED] Rate limit exceeded for", identifier);
       return NextResponse.json(
         { error: "Rate limit exceeded. Try again later." },
         { status: 429 },
