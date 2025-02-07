@@ -18,7 +18,6 @@
       ]
     }
   },
-  "forwardPorts": [3000],
   "postCreateCommand": "bash .devcontainer/prerun.sh && npm run dev",
   "remoteUser": "node",
   "containerUser": "node"

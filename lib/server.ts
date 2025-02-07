@@ -18,7 +18,7 @@ export const getRequestIP = (request: NextRequest): string => {
   // Prioritize X-Real-IP, then X-Forwarded-For, fallback to undefined
   const remoteAddress = ipFromRealIPHeader ?? ipFromForwardedHeader;
 
-  return ipFromRequestObject ?? remoteAddress ?? "127.0.0.1";
+  return ipFromRequestObject ?? remoteAddress ?? "anonymous";
 };
 
 export const hashIPAddress = (ip: string) => {

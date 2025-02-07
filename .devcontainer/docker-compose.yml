@@ -6,7 +6,7 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspace:cached
-    entrypoint:
+    environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     ports:
