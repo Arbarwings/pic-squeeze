@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
+    ENABLE_RATE_LIMIT: z.string().transform((val) => val === "true"),
     IP_HASH_SALT: z.string().min(1),
     REDIS_HOST: z.string().min(1),
     REDIS_PORT: z.string().min(1),

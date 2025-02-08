@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { compressImage } from "@/lib/compressors";
@@ -29,16 +30,21 @@ async function validateFormData(formData: FormData) {
 
 export async function POST(request: NextRequest) {
   try {
-    const ipAddress = getRequestIP(request);
-    const identifier = hashIPAddress(ipAddress);
-    const allowed = await rateLimit(identifier);
+    if (env.ENABLE_RATE_LIMIT) {
+      const ipAddress = getRequestIP(request);
+      const identifier = hashIPAddress(ipAddress);
+      const allowed = await rateLimit(identifier);
 
-    if (!allowed) {
-      console.log("[RATE_LIMIT_EXCEEDED] Rate limit exceeded for", identifier);
-      return NextResponse.json(
-        { error: "Rate limit exceeded. Try again later." },
-        { status: 429 },
-      );
+      if (!allowed) {
+        console.log(
+          "[RATE_LIMIT_EXCEEDED] Rate limit exceeded for",
+          identifier,
+        );
+        return NextResponse.json(
+          { error: "Rate limit exceeded. Try again later." },
+          { status: 429 },
+        );
+      }
     }
 
     const formData = await request.formData();
