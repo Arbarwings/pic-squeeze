@@ -14,7 +14,7 @@ export default function FileWarning({
       className="flex items-center space-x-2 rounded-lg border-l-4 border-yellow-500 bg-yellow-900 p-4 text-yellow-200"
       role="alert"
     >
-      <AlertCircle className="flex-shrink-0" />
+      <AlertCircle className="shrink-0" />
       <div>
         <h3 className="font-bold">{title}</h3>
         <p className="text-sm">{message}</p>
