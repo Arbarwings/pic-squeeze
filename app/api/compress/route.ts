@@ -51,9 +51,9 @@ export async function POST(request: NextRequest) {
     const validationResult = await validateFormData(formData);
 
     if (!validationResult.success) {
-      console.error("Validation errors:", validationResult.error.errors);
+      console.error("Validation errors:", validationResult.error.issues);
       return NextResponse.json(
-        { errors: validationResult.error.errors },
+        { errors: validationResult.error.issues },
         { status: 400 },
       );
     }
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       quality,
     );
 
-    return new NextResponse(outputBuffer, {
+    return new NextResponse(Buffer.from(outputBuffer), {
       headers: {
         "Content-Type": mimeType,
         "Content-Disposition": `attachment; filename="${filename}"`,

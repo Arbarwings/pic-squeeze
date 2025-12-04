@@ -23,21 +23,29 @@ export const createFileSchema = (
   z.object({
     image: z
       .instanceof(File)
-      .refine(
-        (file) => file.size <= maxSize,
-        (file) => ({
-          message: `File size must be less than ${(
-            maxSize /
-            (1024 * 1024)
-          ).toFixed(0)}MB. Got: ${(file.size / (1024 * 1024)).toFixed(1)}MB`,
-        }),
-      )
-      .refine(
-        (file) => acceptedTypes.includes(file.type),
-        () => ({
-          message: `Only ${acceptedTypes
-            .map((t) => t.split("/")[1].toUpperCase())
-            .join(", ")} files are accepted`,
-        }),
-      ),
+      .check((ctx) => {
+        const file = ctx.value;
+        if (file.size > maxSize) {
+          ctx.issues.push({
+            code: "custom",
+            input: file,
+            message: `File size must be less than ${(
+              maxSize /
+              (1024 * 1024)
+            ).toFixed(0)}MB. Got: ${(file.size / (1024 * 1024)).toFixed(1)}MB`,
+          });
+        }
+      })
+      .check((ctx) => {
+        const file = ctx.value;
+        if (!acceptedTypes.includes(file.type)) {
+          ctx.issues.push({
+            code: "custom",
+            input: file,
+            message: `Only ${acceptedTypes
+              .map((t) => t.split("/")[1].toUpperCase())
+              .join(", ")} files are accepted`,
+          });
+        }
+      }),
   });

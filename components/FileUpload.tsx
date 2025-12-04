@@ -33,7 +33,7 @@ export default function FileUpload({
       const result = schema.safeParse({ image: file });
 
       if (!result.success) {
-        setErrorMessage(result.error.errors[0].message);
+        setErrorMessage(result.error.issues[0].message);
         return;
       }
 
